@@ -45,18 +45,21 @@ const OurMenu = () => {
         coverImg={dessertImg}
         description="A short description of desserts"
       ></MenuCategory>
+
       {/* pizza */}
       <MenuCategory
         iteam={pizza}
         title={"pizza"}
         coverImg={pizzaImg}
       ></MenuCategory>
+
       {/* salad */}
       <MenuCategory
         iteam={salad}
         title={"salads"}
         coverImg={saladImg}
       ></MenuCategory>
+
       {/* soup */}
       <MenuCategory
         iteam={soup}
