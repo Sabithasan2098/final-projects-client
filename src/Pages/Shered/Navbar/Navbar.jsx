@@ -1,17 +1,57 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../Providers/Provider";
+// import icon from "../../../../public/user-icon.png";
+import { FaShoppingCart } from "react-icons/fa";
+import useCart from "../../../Components/hooks/useCart";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const [cart] = useCart();
+
+  const handleLogOut = () => {
+    logOut()
+      .then((result) => console.log(result.user))
+      .catch((error) => console.log(error.message));
+  };
+
   const nav = (
     <>
-      <li>
-        <NavLink to={"/"}>Home</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/ourMenu"}>Our Menu</NavLink>
-      </li>
-      <li>
-        <NavLink to={"/order/salad"}>Our Shop</NavLink>
-      </li>
+      <div className="flex gap-1 items-center">
+        <li>
+          <NavLink to={"/"}>Home</NavLink>
+        </li>
+        <li>
+          <NavLink to={"/ourMenu"}>Our Menu</NavLink>
+        </li>
+        <li>
+          <NavLink to={"/order/salad"}>Our Shop</NavLink>
+        </li>
+        {user ? (
+          <>
+            <button onClick={handleLogOut} className="btn btn-active btn-ghost">
+              Log Out
+            </button>
+          </>
+        ) : (
+          <>
+            <li>
+              <NavLink to={"/login"}>Login</NavLink>
+            </li>
+          </>
+        )}
+        <li>
+          <NavLink to={"/singUp"}>SignUp</NavLink>
+        </li>
+        <li>
+          <Link to={"/dashboard/cart"}>
+            <button className="btn">
+              <FaShoppingCart></FaShoppingCart>
+              <div className="badge badge-secondary">+{cart.length}</div>
+            </button>
+          </Link>
+        </li>
+      </div>
     </>
   );
   return (
@@ -48,7 +88,19 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{nav}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {user ? (
+            <>
+              <img
+                className="h-10 w-10 rounded-full"
+                src={user?.photoURL}
+                alt=""
+              />{" "}
+            </>
+          ) : (
+            <>
+              <div></div>
+            </>
+          )}
         </div>
       </div>
     </div>
