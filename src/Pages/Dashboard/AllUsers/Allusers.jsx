@@ -14,6 +14,31 @@ const Allusers = () => {
     },
   });
 
+  const handleMakeAdmin = (user) => {
+    Swal.fire({
+      title: "Are you sure to create an admin?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, i want!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSequere.patch(`/users/admin/${user._id}`).then((res) => {
+          if (res.data.modifiedCount === 1) {
+            refetch();
+            Swal.fire({
+              title: "Success",
+              text: `${user.name} is admin now`,
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
+
   const handleDeleteUsers = (user) => {
     Swal.fire({
       title: "Are you sure?",
@@ -65,13 +90,17 @@ const Allusers = () => {
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>
-                    <button
-                      onClick={() => handleDeleteUsers(user)}
-                      className="btn  bg-orange-600
+                    {user.role === "admin" ? (
+                      "Admin"
+                    ) : (
+                      <button
+                        onClick={() => handleMakeAdmin(user)}
+                        className="btn  bg-orange-600
                        btn-lg"
-                    >
-                      <FaUsers className=" text-white text-2xl"></FaUsers>
-                    </button>
+                      >
+                        <FaUsers className=" text-white text-2xl"></FaUsers>
+                      </button>
+                    )}
                   </td>
                   <td>
                     <button
