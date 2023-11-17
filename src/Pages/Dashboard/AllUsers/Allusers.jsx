@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSequere from "../../../Components/hooks/useAxiosSequere";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Allusers = () => {
   const axiosSequere = useAxiosSequere();
 
-  const { data: users = [] } = useQuery({
+  const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axiosSequere.get("/users");
@@ -13,7 +14,30 @@ const Allusers = () => {
     },
   });
 
-  const handleDeleteUsers = (user) => {};
+  const handleDeleteUsers = (user) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSequere.delete(`/users/${user._id}`).then((res) => {
+          if (res.data.deletedCount === 1) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div>
@@ -46,7 +70,7 @@ const Allusers = () => {
                       className="btn  bg-orange-600
                        btn-lg"
                     >
-                      <FaUsers className=" text-white"></FaUsers>
+                      <FaUsers className=" text-white text-2xl"></FaUsers>
                     </button>
                   </td>
                   <td>
@@ -55,7 +79,7 @@ const Allusers = () => {
                       className="btn  bg-red-700
                       btn-lg"
                     >
-                      <FaTrashAlt className=" text-white"></FaTrashAlt>
+                      <FaTrashAlt className=" text-white text-2xl"></FaTrashAlt>
                     </button>
                   </td>
                 </tr>
