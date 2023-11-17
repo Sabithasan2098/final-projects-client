@@ -24,7 +24,24 @@ const SignUp = () => {
       .then((result) => {
         console.log(result.user);
         updateProFile(data.name, data.photoUrl)
-          .then(() => {})
+          .then(() => {
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+            };
+            axiosPublic.post("/users", userInfo).then((res) => {
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "You are successfully registered",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
+            });
+          })
           .catch((error) => console.log(error.message));
         reset();
         navigate("/");
