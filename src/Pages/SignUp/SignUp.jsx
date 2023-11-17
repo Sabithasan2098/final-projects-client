@@ -4,8 +4,11 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/Provider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../Components/hooks/useAxiosPublic";
+import SocialLogin from "../../Components/SocialLogin";
 
 const SignUp = () => {
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     handleSubmit,
@@ -21,15 +24,7 @@ const SignUp = () => {
       .then((result) => {
         console.log(result.user);
         updateProFile(data.name, data.photoUrl)
-          .then(() => {
-            console.log("update user info");
-            Swal.fire({
-              icon: "success",
-              title: "You are successfully Registered",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-          })
+          .then(() => {})
           .catch((error) => console.log(error.message));
         reset();
         navigate("/");
@@ -144,6 +139,7 @@ const SignUp = () => {
                   </span>
                 </Link>
               </p>
+              <SocialLogin></SocialLogin>
             </form>
           </div>
         </div>
