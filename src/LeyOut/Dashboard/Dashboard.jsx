@@ -11,10 +11,11 @@ import {
   FaUtensils,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
+import useAdmin from "../../Components/hooks/useAdmin";
 
 const Dashboard = () => {
   // TODO :get isadmine value from the database
-  const isadmine = true;
+  const [isadmine] = useAdmin();
   return (
     <div className="flex">
       {/* dashboard side bar */}
