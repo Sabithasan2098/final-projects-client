@@ -11,6 +11,8 @@ import PrivateRoutes from "./PrivateRoutes";
 import Allusers from "../Pages/Dashboard/AllUsers/Allusers";
 import AddIteams from "../Pages/Dashboard/AddIteams/AddIteams";
 import AdminPrivateRoute from "./AdminPrivateRoute";
+import ManageItems from "../Pages/Dashboard/ManageItem/ManageItems";
+import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
 
 export const router = createBrowserRouter([
   {
@@ -62,10 +64,27 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "manageIteams",
+        element: (
+          <AdminPrivateRoute>
+            <ManageItems></ManageItems>
+          </AdminPrivateRoute>
+        ),
+      },
+      {
         path: "addIteams",
         element: (
           <AdminPrivateRoute>
             <AddIteams></AddIteams>
+          </AdminPrivateRoute>
+        ),
+      },
+      {
+        path: "updateItem/:id",
+        element: (
+          <AdminPrivateRoute>
+            {" "}
+            <UpdateItem></UpdateItem>
           </AdminPrivateRoute>
         ),
       },

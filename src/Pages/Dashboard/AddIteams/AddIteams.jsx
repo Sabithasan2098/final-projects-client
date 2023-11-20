@@ -8,7 +8,7 @@ const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 const AddIteams = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const axiosPublic = useAxiosPublic();
   const axiosSequere = useAxiosSequere();
 
@@ -32,10 +32,11 @@ const AddIteams = () => {
       console.log(menuRes.data);
       if (menuRes.data.acknowledged) {
         // get a popUp to complete
+        reset();
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "New menu item is added",
+          title: `${data.name} item is added`,
           showConfirmButton: false,
           timer: 1500,
         });
