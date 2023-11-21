@@ -1,11 +1,24 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAxiosSequere from "../../../Components/hooks/useAxiosSequere";
+import useCart from "../../../Components/hooks/useCart";
 // import Login from "../../Login/Login";
 
 const CheakoutForm = () => {
   const [error, setError] = useState("");
+  const [clientSecret, setClientSecret] = useState();
   const stripe = useStripe();
   const elements = useElements();
+  const axiosSequere = useAxiosSequere();
+  const [cart] = useCart();
+  const totalPrice = cart.reduce((tp, cp) => tp + cp.price, 0);
+
+  useEffect(() => {
+    axiosSequere.post("/create-payment-intent", totalPrice).then((res) => {
+      console.log(res.data.clientSecret);
+      setClientSecret(res.data.clientSecret);
+    });
+  }, [axiosSequere, totalPrice]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -54,7 +67,7 @@ const CheakoutForm = () => {
       <button
         className="btn btn-info btn-xs my-4 text-white"
         type="submit"
-        disabled={!stripe}
+        disabled={!stripe || !clientSecret}
       >
         Pay
       </button>
