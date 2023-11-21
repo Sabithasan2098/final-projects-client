@@ -13,6 +13,7 @@ import AddIteams from "../Pages/Dashboard/AddIteams/AddIteams";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 import ManageItems from "../Pages/Dashboard/ManageItem/ManageItems";
 import UpdateItem from "../Pages/Dashboard/UpdateItem/UpdateItem";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export const router = createBrowserRouter([
         path: "cart",
         element: <Cart></Cart>,
       },
+      {
+        path: "payment",
+        element: <Payment></Payment>,
+      },
       // admine-routes---------------------------
       {
         path: "allUsers",
@@ -87,6 +92,8 @@ export const router = createBrowserRouter([
             <UpdateItem></UpdateItem>
           </AdminPrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/menu/${params.id}`),
       },
     ],
   },
